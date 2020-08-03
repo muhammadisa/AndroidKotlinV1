@@ -1,0 +1,74 @@
+package com.xoxo.mnp;
+
+import android.app.Activity;
+import android.app.Service;
+import android.view.View;
+import androidx.fragment.app.Fragment;
+import androidx.hilt.lifecycle.ViewModelAssistedFactory;
+import androidx.hilt.lifecycle.ViewModelFactoryModules_ActivityModule_ProvideFactoryFactory;
+import androidx.hilt.lifecycle.ViewModelFactoryModules_FragmentModule_ProvideFactoryFactory;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.xoxo.mnp.di.NetworkModule;
+import dagger.hilt.android.internal.builders.ActivityComponentBuilder;
+import dagger.hilt.android.internal.builders.ActivityRetainedComponentBuilder;
+import dagger.hilt.android.internal.builders.FragmentComponentBuilder;
+import dagger.hilt.android.internal.builders.ServiceComponentBuilder;
+import dagger.hilt.android.internal.builders.ViewComponentBuilder;
+import dagger.hilt.android.internal.builders.ViewWithFragmentComponentBuilder;
+import dagger.hilt.android.internal.modules.ApplicationContextModule;
+import dagger.hilt.android.internal.modules.ApplicationContextModule_ProvideApplicationFactory;
+import dagger.internal.Preconditions;
+import java.util.Set;
+import javax.annotation.Generated;
+import javax.inject.Provider;
+
+@Generated(
+    value = "dagger.internal.codegen.ComponentProcessor",
+    comments = "https://dagger.dev"
+)
+@SuppressWarnings({
+    "unchecked",
+    "rawtypes"
+})
+public final class DaggerApp_HiltComponents_ApplicationC extends App_HiltComponents.ApplicationC {
+  private final ApplicationContextModule applicationContextModule;
+
+  private DaggerApp_HiltComponents_ApplicationC(
+      ApplicationContextModule applicationContextModuleParam) {
+    this.applicationContextModule = applicationContextModuleParam;
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  @Override
+  public void injectApp(App app) {
+  }
+
+  @Override
+  public ActivityRetainedComponentBuilder retainedComponentBuilder() {
+    return new ActivityRetainedCBuilder();
+  }
+
+  @Override
+  public ServiceComponentBuilder serviceComponentBuilder() {
+    return new ServiceCBuilder();
+  }
+
+  public static final class Builder {
+    private ApplicationContextModule applicationContextModule;
+
+    private Builder() {
+    }
+
+    public Builder applicationContextModule(ApplicationContextModule applicationContextModule) {
+      this.applicationContextModule = Preconditions.checkNotNull(applicationContextModule);
+      return this;
+    }
+
+    /**
+     * @deprecated This module is declared, but an instance is not used 
