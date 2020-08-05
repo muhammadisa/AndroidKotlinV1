@@ -9,7 +9,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.0"
     defaultConfig {
-        applicationId "com.xoxo.mnp"
+        applicationId "com.xoxo.androidkotlinmvvm"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
         versionCode versions.versionCode
@@ -52,7 +52,7 @@ android {
     testOptions {
         unitTests {
             includeAndroidResources = true
-            returnDefaultValues = true
+//            returnDefaultValues = true
         }
     }
     packagingOptions {

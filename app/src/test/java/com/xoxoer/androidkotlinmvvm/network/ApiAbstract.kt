@@ -1,6 +1,7 @@
 package com.xoxoer.androidkotlinmvvm.network
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.google.gson.GsonBuilder
 import io.reactivex.schedulers.Schedulers
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -55,13 +56,22 @@ abstract class ApiAbstract<T> {
         mockWebServer.enqueue(mockResponse.setBody(source.readString(StandardCharsets.UTF_8)))
     }
 
-    fun createService(clazz: Class<T>): T {
+    fun createService(targetClass: Class<T>): T {
         return Retrofit.Builder()
             .baseUrl(mockWebServer.url("/"))
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            .addConverterFactory(
+                GsonConverterFactory.create(
+                    GsonBuilder()
+                        .setLenient()
+                        .create()
+                )
+            )
+            .addCallAdapterFactory(
+                RxJava2CallAdapterFactory
+                    .createWithScheduler(Schedulers.trampoline())
+            )
             .build()
-            .create(clazz)
+            .create(targetClass)
     }
 
 }

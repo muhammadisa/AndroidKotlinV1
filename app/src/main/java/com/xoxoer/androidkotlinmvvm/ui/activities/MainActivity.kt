@@ -19,6 +19,7 @@ class MainActivity : BaseAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        exampleViewModel.fetchExample()
         binding.apply {
             lifecycleOwner = this@MainActivity
             vm = exampleViewModel

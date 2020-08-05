@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import com.xoxoer.androidkotlinmvvm.model.example.Example
 import com.xoxoer.androidkotlinmvvm.repository.ExampleRepository
 import com.xoxoer.lifemarklibrary.Lifemark
+import timber.log.Timber
 
 class ExampleViewModel @ViewModelInject constructor(
     private val exampleRepository: ExampleRepository,
