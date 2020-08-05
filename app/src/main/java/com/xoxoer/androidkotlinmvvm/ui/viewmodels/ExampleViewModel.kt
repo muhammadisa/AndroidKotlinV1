@@ -30,6 +30,7 @@ class ExampleViewModel @ViewModelInject constructor(
     private fun errorDispatcher(errorReason: String){
         this.error.set(true)
         this.errorReason.set(errorReason)
+        this._exampleSuccess.postValue(null)
         this.isLoading.postValue(false)
     }
 

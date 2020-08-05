@@ -1,6 +1,7 @@
 package com.xoxoer.androidkotlinmvvm.di
 
 import android.content.Context
+import android.icu.text.DateFormat.Field.SECOND
 import com.xoxoer.androidkotlinmvvm.network.HeaderInterceptor
 import com.xoxoer.androidkotlinmvvm.network.HttpRequestInterceptor
 import com.xoxoer.androidkotlinmvvm.BuildConfig
@@ -20,6 +21,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.Calendar.SECOND
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module

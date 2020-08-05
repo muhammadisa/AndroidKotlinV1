@@ -6,6 +6,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import com.xoxoer.androidkotlinmvvm.extensions.createDialog
+import com.xoxoer.lifemarklibrary.Lifemark
 
 @BindingAdapter("errorHandler", "errorReasonHandler")
 fun bindError(
