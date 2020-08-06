@@ -42,6 +42,10 @@ class ExampleServiceTest : ApiAbstract<ExampleService>() {
         mockWebServer.takeRequest()
         client.fetchExample()
         assertThat(responseBody.id, `is`(1))
+        assertThat(responseBody.postId, `is`(2))
+        assertThat(responseBody.name, `is`("example_name"))
+        assertThat(responseBody.body, `is`("example_body"))
+        assertThat(responseBody.email, `is`("example@example.com"))
     }
 
 }
