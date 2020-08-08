@@ -19,8 +19,6 @@ import com.xoxoer.androidkotlinmvvm.utils.MockUtil
 import com.xoxoer.lifemarklibrary.Lifemark
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
