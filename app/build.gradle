@@ -145,6 +145,7 @@ dependencies {
     testImplementation "org.mockito:mockito-inline:$versions.mockitoInlineVersion"
     testImplementation "org.robolectric:robolectric:$versions.robolectricVersion"
     androidTestImplementation "androidx.test:core:$versions.androidxTest"
+    testImplementation "app.cash.turbine:turbine:$versions.turbineVersion"
     androidTestImplementation "com.google.truth:truth:$versions.truthVersion"
     androidTestImplementation "androidx.test.ext:junit:$versions.androidxTestJunit"
     androidTestImplementation "com.android.support.test:runner:$versions.androidTestRunner"
