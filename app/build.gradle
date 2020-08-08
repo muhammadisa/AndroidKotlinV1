@@ -52,7 +52,7 @@ android {
     testOptions {
         unitTests {
             includeAndroidResources = true
-//            returnDefaultValues = true
+            returnDefaultValues = true
         }
     }
     packagingOptions {
@@ -65,6 +65,10 @@ android {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
         exclude("META-INF/*.kotlin_module")
+    }
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions.freeCompilerArgs += ["-Xopt-in=kotlin.time.ExperimentalTime"]
+        kotlinOptions.freeCompilerArgs += ["-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"]
     }
 }
 

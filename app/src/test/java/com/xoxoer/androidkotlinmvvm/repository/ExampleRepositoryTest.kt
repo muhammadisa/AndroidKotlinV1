@@ -4,10 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import com.xoxoer.androidkotlinmvvm.RxTrampolineSchedulerRule
-import com.xoxoer.androidkotlinmvvm.model.example.Example
 import com.xoxoer.androidkotlinmvvm.network.services.ExampleClient
 import com.xoxoer.androidkotlinmvvm.network.services.ExampleService
 import com.xoxoer.androidkotlinmvvm.persistence.ExampleDao
+import com.xoxoer.androidkotlinmvvm.utils.MockUtil
 import io.reactivex.Single
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.MatcherAssert.assertThat
@@ -38,23 +38,15 @@ class ExampleRepositoryTest {
 
     @Test
     fun fetchExampleFromNetworkTest() = runBlocking {
-        val mockData = Example(
-            1,
-            "body_example",
-            "email_example",
-            "name_example",
-            2
-        )
-
         whenever(exampleDao.getExample(id_ = 0)).thenReturn(null)
-        whenever(service.fetchExample()).thenReturn(Single.just(mockData))
+        whenever(service.fetchExample()).thenReturn(Single.just(MockUtil.mockExample()))
 
         repository.fetchExample(
             onResult = {
                 assertThat(it.id, `is`(1))
-                assertThat(it.body, `is`("body_example"))
-                assertThat(it.email, `is`("email_example"))
-                assertThat(it.name, `is`("name_example"))
+                assertThat(it.body, `is`("example_body"))
+                assertThat(it.email, `is`("example@example.com"))
+                assertThat(it.name, `is`("example_name"))
                 assertThat(it.postId, `is`(2))
             },
             onError = {}
