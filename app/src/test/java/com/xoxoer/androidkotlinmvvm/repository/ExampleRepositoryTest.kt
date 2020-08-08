@@ -1,7 +1,8 @@
 package com.xoxoer.androidkotlinmvvm.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import com.xoxoer.androidkotlinmvvm.RxTrampolineSchedulerRule
 import com.xoxoer.androidkotlinmvvm.model.example.Example
 import com.xoxoer.androidkotlinmvvm.network.services.ExampleClient
@@ -14,8 +15,6 @@ import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.junit.MockitoJUnitRunner
 
 class ExampleRepositoryTest {
 
@@ -32,13 +31,13 @@ class ExampleRepositoryTest {
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Before
-    fun setup(){
+    fun setup() {
         client = ExampleClient(service)
         repository = ExampleRepository(client, exampleDao)
     }
 
     @Test
-    fun fetchExampleFromNetworkTest() = runBlocking{
+    fun fetchExampleFromNetworkTest() = runBlocking {
         val mockData = Example(
             1,
             "body_example",
