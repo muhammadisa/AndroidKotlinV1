@@ -12,6 +12,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class ActivityInjectionTest {
@@ -22,7 +23,7 @@ class ActivityInjectionTest {
     @Test
     fun verifyInjection() {
         ActivityScenario.launch(MainActivity::class.java).use {
-            it.moveToState(Lifecycle.State.CREATED)
+            it.moveToState(Lifecycle.State.STARTED)
             it.onActivity { activity ->
                 assertThat(activity.exampleViewModel).isNotNull()
                 activity.exampleViewModel.fetchExample()
