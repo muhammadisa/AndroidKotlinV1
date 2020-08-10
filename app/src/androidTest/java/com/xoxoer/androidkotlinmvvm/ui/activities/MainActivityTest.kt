@@ -1,7 +1,5 @@
 package com.xoxoer.androidkotlinmvvm.ui.activities
 
-import android.content.Context
-import android.net.wifi.WifiManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.test.core.app.ActivityScenario
@@ -37,7 +35,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun test_verifyInjection() {
+    fun verifyInjectionTest() {
         ActivityScenario.launch(MainActivity::class.java).use {
             it.moveToState(Lifecycle.State.STARTED)
             it.onActivity { activity ->
@@ -51,7 +49,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun test_activityOnView() {
+    fun activityOnViewTest() {
 
         onView(withId(R.id.main))
             .check(matches(isDisplayed()))
@@ -62,7 +60,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun test_textViewExampleOnView() {
+    fun textViewExampleOnViewTest() {
 
         onView(withId(R.id.text_view_example))
             .check(matches(isDisplayed()))
@@ -73,7 +71,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun test_buttonRefreshOnView() {
+    fun buttonRefreshOnViewTest() {
 
         onView(withId(R.id.button_refresh))
             .check(matches(isDisplayed()))
@@ -84,7 +82,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun test_refreshButtonClick() {
+    fun refreshButtonClickTest() {
 
         onView(withId(R.id.button_refresh))
             .check(matches(isDisplayed()))
