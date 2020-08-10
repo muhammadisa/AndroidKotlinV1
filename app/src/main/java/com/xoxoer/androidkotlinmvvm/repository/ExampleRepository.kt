@@ -5,6 +5,7 @@ import com.xoxoer.androidkotlinmvvm.network.services.ExampleClient
 import com.xoxoer.androidkotlinmvvm.persistence.ExampleDao
 import com.xoxoer.androidkotlinmvvm.utils.rx.ApiSingleObserver
 import com.xoxoer.androidkotlinmvvm.utils.rx.Error
+import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
