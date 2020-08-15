@@ -10,8 +10,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.xoxoer.androidkotlinmvvm.model.example.Example
 import com.xoxoer.androidkotlinmvvm.repository.ExampleRepository
+import com.xoxoer.androidkotlinmvvm.utils.rx.ApiSingleObserver
+import com.xoxoer.androidkotlinmvvm.utils.rx.Error
 import com.xoxoer.lifemarklibrary.Lifemark
-import timber.log.Timber
+import io.reactivex.disposables.CompositeDisposable
 
 class ExampleViewModel @ViewModelInject constructor(
     private val exampleRepository: ExampleRepository,
@@ -28,7 +30,7 @@ class ExampleViewModel @ViewModelInject constructor(
     val exampleSuccess: LiveData<Example>
         get() = _exampleSuccess
 
-    private fun errorDispatcher(errorReason: String){
+    private fun errorDispatcher(errorReason: String) {
         this.error.set(true)
         this.errorReason.set(errorReason)
         this._exampleSuccess.postValue(null)
@@ -37,17 +39,29 @@ class ExampleViewModel @ViewModelInject constructor(
 
     fun fetchExample() {
         isLoading.postValue(true)
-        when(lifemark.isNetworkConnected()) {
-            true -> exampleRepository.fetchExample(
-                onResult = {
-                    _exampleSuccess.postValue(it)
+        when (lifemark.isNetworkConnected()) {
+            true -> exampleRepository.fetchExample(object :
+                ApiSingleObserver<Example>(CompositeDisposable()) {
+                override fun onResult(data: Example) {
+                    _exampleSuccess.postValue(data)
                     isLoading.postValue(false)
-                },
-                onError = {
-                    errorDispatcher(it.message)
                 }
-            )
-            false -> errorDispatcher("No Internet Connection")
+
+                override fun onError(e: Error) {
+                    errorDispatcher(e.message)
+                }
+            })
+            false -> exampleRepository.fetchExample(object :
+                ApiSingleObserver<Example>(CompositeDisposable()) {
+                override fun onResult(data: Example) {
+                    _exampleSuccess.postValue(data)
+                    isLoading.postValue(false)
+                }
+
+                override fun onError(e: Error) {
+                    errorDispatcher("No Internet Connection")
+                }
+            })
         }
     }
 }

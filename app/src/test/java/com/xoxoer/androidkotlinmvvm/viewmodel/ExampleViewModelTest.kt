@@ -17,6 +17,7 @@ import com.xoxoer.androidkotlinmvvm.repository.ExampleRepository
 import com.xoxoer.androidkotlinmvvm.ui.viewmodels.ExampleViewModel
 import com.xoxoer.androidkotlinmvvm.utils.MockUtil
 import com.xoxoer.lifemarklibrary.Lifemark
+import io.reactivex.Single
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -48,9 +49,11 @@ class ExampleViewModelTest {
     @Test
     fun fetchExampleTest() = runBlocking {
         val mockData = MockUtil.mockExample()
-        whenever(exampleDao.getExample(id_ = 1)).thenReturn(mockData).then {
-            verify(exampleDao, atLeastOnce()).getExample(id_ = 1)
-        }
+        whenever(exampleDao.getExample(id_ = 1)).thenReturn(Single.just(mockData))
+            .then {
+                verify(exampleDao, atLeastOnce()).getExample(id_ = 1)
+            }
+
         whenever(exampleDao.deleteExample()).then {
             verify(exampleDao, atLeastOnce()).deleteExample()
         }

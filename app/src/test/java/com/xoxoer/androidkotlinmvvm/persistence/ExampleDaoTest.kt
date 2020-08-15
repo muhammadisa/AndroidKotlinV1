@@ -25,7 +25,7 @@ class ExampleDaoTest : LocalDatabase() {
     fun insertAndLoadExample() = runBlocking {
         val mockExampleList = mockExample()
         exampleDao.insertExample(mockExample())
-        val loadFromDB = exampleDao.getExample(1)!!
+        val loadFromDB = exampleDao.getExample(1).blockingGet()
         assertThat(loadFromDB.toString(), `is`(mockExampleList.toString()))
         assertThat(loadFromDB.id, `is`(1))
     }
