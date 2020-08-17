@@ -14,7 +14,6 @@ import com.xoxoer.androidkotlinmvvm.utils.rx.ApiSingleObserver
 import com.xoxoer.androidkotlinmvvm.utils.rx.Error
 import com.xoxoer.lifemarklibrary.Lifemark
 import io.reactivex.disposables.CompositeDisposable
-import timber.log.Timber
 
 class ExampleViewModel @ViewModelInject constructor(
     private val exampleRepository: ExampleRepository,
@@ -42,12 +41,10 @@ class ExampleViewModel @ViewModelInject constructor(
 
     private fun onStart() {
         isLoading.value = true
-        Timber.e("LOADING ON START ${isLoading.value}")
     }
 
     private fun onFinish() {
         isLoading.value = false
-        Timber.e("LOADING ON FINISH ${isLoading.value}")
     }
 
     private fun <T> handler(targetMutable: MutableLiveData<T>) =
@@ -58,8 +55,14 @@ class ExampleViewModel @ViewModelInject constructor(
 
             override fun onError(e: Error) {
                 when (lifemark.isNetworkConnected()) {
-                    true -> errorDispatcher(e.message, targetMutable)
-                    false -> errorDispatcher("No Internet Connection", targetMutable)
+                    true -> errorDispatcher(
+                        e.message,
+                        targetMutable
+                    )
+                    false -> errorDispatcher(
+                        "No Internet Connection",
+                        targetMutable
+                    )
                 }
             }
         }
