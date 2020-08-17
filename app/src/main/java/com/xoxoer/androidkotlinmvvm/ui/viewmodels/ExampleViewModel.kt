@@ -14,7 +14,6 @@ import com.xoxoer.androidkotlinmvvm.utils.rx.ApiSingleObserver
 import com.xoxoer.androidkotlinmvvm.utils.rx.Error
 import com.xoxoer.lifemarklibrary.Lifemark
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import timber.log.Timber
 
 class ExampleViewModel @ViewModelInject constructor(
@@ -32,10 +31,13 @@ class ExampleViewModel @ViewModelInject constructor(
     val exampleSuccess: LiveData<Example>
         get() = _exampleSuccess
 
-    private fun <T> errorDispatcher(errorReason: String, targetMutable: MutableLiveData<T>) {
+    private fun <T> errorDispatcher(
+        errorReason: String,
+        targetMutable: MutableLiveData<T>
+    ) {
         this.error.set(true)
         this.errorReason.set(errorReason)
-        this._exampleSuccess.postValue(null)
+        targetMutable.value = null
     }
 
     private fun onStart() {
