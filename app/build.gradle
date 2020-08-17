@@ -9,7 +9,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.0"
     defaultConfig {
-        applicationId "com.xoxo.androidkotlinmvvm"
+        applicationId "com.xoxoer.androidkotlinmvvm"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
         versionCode versions.versionCode

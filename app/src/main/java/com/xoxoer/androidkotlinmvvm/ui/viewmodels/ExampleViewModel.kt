@@ -14,6 +14,8 @@ import com.xoxoer.androidkotlinmvvm.utils.rx.ApiSingleObserver
 import com.xoxoer.androidkotlinmvvm.utils.rx.Error
 import com.xoxoer.lifemarklibrary.Lifemark
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import timber.log.Timber
 
 class ExampleViewModel @ViewModelInject constructor(
     private val exampleRepository: ExampleRepository,
@@ -22,7 +24,7 @@ class ExampleViewModel @ViewModelInject constructor(
 ) : ViewModel(), ViewModelContracts {
 
     override var valid = ObservableBoolean()
-    override val isLoading = MutableLiveData<Boolean>()
+    override val isLoading = MutableLiveData(false)
     override val error = ObservableField<Boolean>()
     override val errorReason = ObservableField<String>()
 
@@ -30,38 +32,41 @@ class ExampleViewModel @ViewModelInject constructor(
     val exampleSuccess: LiveData<Example>
         get() = _exampleSuccess
 
-    private fun errorDispatcher(errorReason: String) {
+    private fun <T> errorDispatcher(errorReason: String, targetMutable: MutableLiveData<T>) {
         this.error.set(true)
         this.errorReason.set(errorReason)
         this._exampleSuccess.postValue(null)
-        this.isLoading.postValue(false)
     }
 
-    fun fetchExample() {
-        isLoading.postValue(true)
-        when (lifemark.isNetworkConnected()) {
-            true -> exampleRepository.fetchExample(object :
-                ApiSingleObserver<Example>(CompositeDisposable()) {
-                override fun onResult(data: Example) {
-                    _exampleSuccess.postValue(data)
-                    isLoading.postValue(false)
-                }
+    private fun onStart() {
+        isLoading.value = true
+        Timber.e("LOADING ON START ${isLoading.value}")
+    }
 
-                override fun onError(e: Error) {
-                    errorDispatcher(e.message)
-                }
-            })
-            false -> exampleRepository.fetchExample(object :
-                ApiSingleObserver<Example>(CompositeDisposable()) {
-                override fun onResult(data: Example) {
-                    _exampleSuccess.postValue(data)
-                    isLoading.postValue(false)
-                }
+    private fun onFinish() {
+        isLoading.value = false
+        Timber.e("LOADING ON FINISH ${isLoading.value}")
+    }
 
-                override fun onError(e: Error) {
-                    errorDispatcher("No Internet Connection")
+    private fun <T> handler(targetMutable: MutableLiveData<T>) =
+        object : ApiSingleObserver<T>(CompositeDisposable()) {
+            override fun onResult(data: T) {
+                targetMutable.value = data
+            }
+
+            override fun onError(e: Error) {
+                when (lifemark.isNetworkConnected()) {
+                    true -> errorDispatcher(e.message, targetMutable)
+                    false -> errorDispatcher("No Internet Connection", targetMutable)
                 }
-            })
+            }
         }
+
+    fun fetchExample() {
+        exampleRepository.fetchExample(
+            { onStart() },
+            { onFinish() },
+            handler(_exampleSuccess)
+        )
     }
 }

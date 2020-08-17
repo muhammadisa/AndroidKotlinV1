@@ -17,25 +17,24 @@ class ExampleRepository @Inject constructor(
         exampleDao.insertExample(data)
     }
 
-    fun fetchExample(handler: ApiSingleObserver<Example>) {
+    @Suppress("UnstableApiUsage")
+    fun fetchExample(
+        onStart: () -> Unit,
+        onFinish: () -> Unit,
+        handler: ApiSingleObserver<Example>
+    ) {
         exampleClient.fetchExample()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess {
-                persistExample(
-                    Example(
-                        it.id,
-                        "Cached ${it.body}",
-                        it.email,
-                        it.name,
-                        it.postId
-                    )
-                )
-            }
+            .doOnSubscribe { onStart() }
+            .doOnTerminate { onFinish() }
+            .doOnSuccess { persistExample(it) }
             .doOnError {
                 exampleDao.getExample(id_ = 1)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { onStart() }
+                    .doOnTerminate { onFinish() }
                     .subscribe(handler)
             }
             .subscribe(handler)
