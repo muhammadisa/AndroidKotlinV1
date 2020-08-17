@@ -1,6 +1,7 @@
 package com.xoxoer.androidkotlinmvvm.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import com.xoxoer.androidkotlinmvvm.RxTrampolineSchedulerRule
@@ -24,6 +25,7 @@ class ExampleRepositoryTest {
 
     private lateinit var repository: ExampleRepository
     private lateinit var client: ExampleClient
+    private lateinit var isLoading: MutableLiveData<Boolean>
     private val service: ExampleService = mock()
     private val exampleDao: ExampleDao = mock()
 
@@ -36,6 +38,7 @@ class ExampleRepositoryTest {
 
     @Before
     fun setup() {
+        isLoading = MutableLiveData(false)
         client = ExampleClient(service)
         repository = ExampleRepository(client, exampleDao)
     }
@@ -46,6 +49,8 @@ class ExampleRepositoryTest {
         whenever(service.fetchExample()).thenReturn(Single.just(MockUtil.mockExample()))
 
         repository.fetchExample(
+            {},
+            {},
             object : ApiSingleObserver<Example>(CompositeDisposable()) {
                 override fun onResult(data: Example) {
                     assertThat(data.id, `is`(1))
@@ -56,7 +61,8 @@ class ExampleRepositoryTest {
                 }
 
                 override fun onError(e: Error) {}
-            })
+            }
+        )
     }
 
 }

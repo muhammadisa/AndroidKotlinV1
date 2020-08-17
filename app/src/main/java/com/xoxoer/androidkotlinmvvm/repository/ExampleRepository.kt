@@ -17,7 +17,6 @@ class ExampleRepository @Inject constructor(
         exampleDao.insertExample(data)
     }
 
-    @Suppress("UnstableApiUsage")
     fun fetchExample(
         onStart: () -> Unit,
         onFinish: () -> Unit,
